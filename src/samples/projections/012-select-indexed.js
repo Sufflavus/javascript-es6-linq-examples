@@ -11,5 +11,5 @@
     }); 
 
     console.log("Number: In-place?");
-    numsInPlace.forEach(item => console.log(`${item.num}: ${item.inPlace}`));
+    numsInPlace.forEach(n => console.log(`${n.num}: ${n.inPlace}`));
 })();

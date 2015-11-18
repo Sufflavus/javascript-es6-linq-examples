@@ -13,7 +13,7 @@
                     orderDate: order.OrderDate
                 };
             });
-    }).reduce((arr1, arr2) => arr1.concat(arr2));
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
 
     orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} OrderDate=${order.orderDate}`));
 })();

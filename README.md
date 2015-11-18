@@ -516,6 +516,388 @@ function linq11() {
     ...
 
 ### linq12: Select - Indexed
+```csharp
+//c#
+public void Linq12() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    var numsInPlace = numbers.Select((num, index) => new { Num = num, InPlace = (num == index) }); 
+  
+    Console.WriteLine("Number: In-place?"); 
+    foreach (var n in numsInPlace) 
+    { 
+        Console.WriteLine("{0}: {1}", n.Num, n.InPlace); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq12() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0]; 
+
+    let numsInPlace = numbers.map((num, index) => {
+        return { 
+            num: num, 
+            inPlace: (num === index)
+        };
+    }); 
+
+    console.log("Number: In-place?");
+    numsInPlace.forEach(n => console.log(`${n.num}: ${n.inPlace}`));
+}
+```
+#### Output
+
+    Number: In-place?
+    5: false
+    4: false
+    1: false
+    3: true
+    9: false
+    8: false
+    6: true
+    7: true
+    2: false
+    0: false
+
+### linq13: Select - Filtered
+```csharp
+//c#
+public void Linq13() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+    string[] digits = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
+  
+    var lowNums = 
+        from n in numbers 
+        where n < 5 
+        select digits[n]; 
+  
+    Console.WriteLine("Numbers < 5:"); 
+    foreach (var num in lowNums) 
+    { 
+        Console.WriteLine(num); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq13() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0]; 
+    let digits = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]; 
+     
+    let lowNums = numbers.filter(n => n < 5).map(n => digits[n]);
+
+    console.log("Numbers < 5:");
+    lowNums.forEach(item => console.log(item));
+}
+```
+#### Output
+
+    Numbers < 5:
+    four
+    one
+    three
+    two
+    zero
+
+### linq14: SelectMany - Compound from 1
+```csharp
+//c#
+public void Linq14() 
+{ 
+    int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 }; 
+    int[] numbersB = { 1, 3, 5, 7, 8 }; 
+  
+    var pairs = 
+        from a in numbersA 
+        from b in numbersB 
+        where a < b 
+        select new { a, b }; 
+  
+    Console.WriteLine("Pairs where a < b:"); 
+    foreach (var pair in pairs) 
+    { 
+        Console.WriteLine("{0} is less than {1}", pair.a, pair.b); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq14() {
+    let numbersA = [0, 2, 4, 5, 6, 8, 9]; 
+    let numbersB = [1, 3, 5, 7, 8]; 
+    
+    let pairs = numbersA.map(a => {
+        return numbersB.filter(b => a < b)
+            .map(b => {
+                return {
+                    a: a, 
+                    b: b
+                };
+            });
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    console.log("Pairs where a < b:");
+    pairs.forEach(pair => console.log(`${pair.a} is less than ${pair.b}`));
+}
+```
+#### Output
+
+    Pairs where a < b:
+    0 is less than 1
+    0 is less than 3
+    0 is less than 5
+    0 is less than 7
+    0 is less than 8
+    2 is less than 3
+    2 is less than 5
+    2 is less than 7
+    2 is less than 8
+    4 is less than 5
+    4 is less than 7
+    4 is less than 8
+    5 is less than 7
+    5 is less than 8
+    6 is less than 7
+    6 is less than 8
+
+### linq15: SelectMany - Compound from 2
+```csharp
+//c#
+public void Linq15() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var orders = 
+        from c in customers 
+        from o in c.Orders 
+        where o.Total < 500.00M 
+        select new { c.CustomerID, o.OrderID, o.Total }; 
+  
+    ObjectDumper.Write(orders); 
+}
+```
+```js
+//JavaScript
+function linq15() {
+    let customers = getCustomerList(); 
+
+    let orders = customers.map(customer => {
+        return customer.Orders.filter(order => order.Total < 500)
+            .map(order => {
+                return {
+                    customerId: customer.CustomerId, 
+                    orderId: order.OrderId,
+                    total: order.Total
+                };
+            });
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} Total=${order.total}`));
+}
+```
+#### Output
+
+    CustomerID=ALFKI OrderID=10702 Total=330.00
+    CustomerID=ALFKI OrderID=10952 Total=471.20
+    CustomerID=ANATR OrderID=10308 Total=88.80
+    CustomerID=ANATR OrderID=10625 Total=479.75
+    ...
+
+### linq16: SelectMany - Compound from 3
+```csharp
+//c#
+public void Linq16() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var orders = 
+        from c in customers 
+        from o in c.Orders 
+        where o.OrderDate >= new DateTime(1998, 1, 1) 
+        select new { c.CustomerID, o.OrderID, o.OrderDate }; 
+  
+    ObjectDumper.Write(orders); 
+}
+```
+```js
+//JavaScript
+function linq16() {
+    let customers = getCustomerList();
+    let cutoffDate = (new Date(1998, 0, 1)).getTime();
+
+    let orders = customers.map(customer => {
+        return customer.Orders.filter(order => (new Date(order.OrderDate)).getTime() >= cutoffDate)
+            .map(order => {
+                return {
+                    customerId: customer.CustomerId, 
+                    orderId: order.OrderId,
+                    orderDate: order.OrderDate
+                };
+            });
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} OrderDate=${order.orderDate}`));
+}
+```
+#### Output
+
+    CustomerID=ALFKI OrderID=10835 OrderDate=1998-01-15T00:00:00.000Z
+    CustomerID=ALFKI OrderID=10952 OrderDate=1998-03-16T00:00:00.000Z
+    CustomerID=ALFKI OrderID=11011 OrderDate=1998-04-09T00:00:00.000Z
+    CustomerID=ANATR OrderID=10926 OrderDate=1998-03-04T00:00:00.000Z
+    CustomerID=ANTON OrderID=10856 OrderDate=1998-01-28T00:00:00.000Z
+    ...
+
+### linq17: SelectMany - from Assignment
+```csharp
+//c#
+public void Linq17() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var orders = 
+        from c in customers 
+        from o in c.Orders 
+        where o.Total >= 2000.0M 
+        select new { c.CustomerID, o.OrderID, o.Total }; 
+  
+    ObjectDumper.Write(orders); 
+}
+```
+```js
+//JavaScript
+function linq17() {
+    let customers = getCustomerList();
+      
+    let orders = customers.map(customer => {
+        return customer.Orders.filter(order => order.Total >= 2000)
+            .map(order => {
+                return {
+                    customerId: customer.CustomerId, 
+                    orderId: order.OrderId,
+                    total: order.Total
+                };
+            });
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} Total=${order.total}`));
+}
+```
+#### Output
+
+    CustomerID=ANTON OrderID=10573 Total=2082.00
+    CustomerID=AROUT OrderID=10558 Total=2142.90
+    CustomerID=AROUT OrderID=10953 Total=4441.25
+    CustomerID=BERGS OrderID=10384 Total=2222.40
+    CustomerID=BERGS OrderID=10524 Total=3192.65
+    ...
+
+### linq18: SelectMany - Multiple from
+```csharp
+//c#
+public void Linq18() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    DateTime cutoffDate = new DateTime(1997, 1, 1); 
+  
+    var orders = 
+        from c in customers 
+        where c.Region == "WA" 
+        from o in c.Orders 
+        where o.OrderDate >= cutoffDate 
+        select new { c.CustomerID, o.OrderID }; 
+  
+    ObjectDumper.Write(orders); 
+}
+```
+```js
+//JavaScript
+function linq18() {
+    let customers = getCustomerList(); 
+
+    let cutoffDate = new Date(1997, 0, 1); 
+    
+    let orders = customers.filter(customer => customer.Region === "WA").map(customer => {
+        return customer.Orders.filter(order => (new Date(order.OrderDate)).getTime() >= cutoffDate.getTime())
+            .map(order => {
+                return {
+                    customerId: customer.CustomerId, 
+                    orderId: order.OrderId
+                };
+            });
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId}`));
+}
+```
+#### Output
+
+    CustomerID=LAZYK OrderID=10482
+    CustomerID=LAZYK OrderID=10545
+    CustomerID=TRAIH OrderID=10574
+    CustomerID=TRAIH OrderID=10577
+    CustomerID=TRAIH OrderID=10822
+    CustomerID=WHITC OrderID=10469
+    CustomerID=WHITC OrderID=10483
+    CustomerID=WHITC OrderID=10504
+    CustomerID=WHITC OrderID=10596
+    CustomerID=WHITC OrderID=10693
+    CustomerID=WHITC OrderID=10696
+    CustomerID=WHITC OrderID=10723
+    CustomerID=WHITC OrderID=10740
+    CustomerID=WHITC OrderID=10861
+    CustomerID=WHITC OrderID=10904
+    CustomerID=WHITC OrderID=11032
+    CustomerID=WHITC OrderID=11066
+
+### linq19: SelectMany - Indexed
+```csharp
+//c#
+public void Linq19() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var customerOrders = 
+        customers.SelectMany( 
+            (cust, custIndex) => 
+            cust.Orders.Select(o => "Customer #" + (custIndex + 1) + 
+                                    " has an order with OrderID " + o.OrderID)); 
+  
+    ObjectDumper.Write(customerOrders); 
+}
+```
+```js
+//JavaScript
+function linq19() {
+    var customers = getCustomerList(); 
+
+    let orders = customers.map((customer, customerIndex) => {
+        return customer.Orders.map(order => `Customer #${customerIndex + 1} has an order with OrderID ${order.OrderId}`);
+    }).reduce((arr1, arr2) => arr1.concat(arr2), []);
+
+    orders.forEach(order => console.log(order));
+}
+```
+#### Output
+
+    Customer #1 has an order with OrderID 10643
+    Customer #1 has an order with OrderID 10692
+    Customer #1 has an order with OrderID 10702
+    Customer #1 has an order with OrderID 10835
+    Customer #1 has an order with OrderID 10952
+    Customer #1 has an order with OrderID 11011
+    Customer #2 has an order with OrderID 10308
+    Customer #2 has an order with OrderID 10625
+    Customer #2 has an order with OrderID 10759
+    Customer #2 has an order with OrderID 10926
+    ...
+
+LINQ - Partitioning Operators
+-----------------------------
 
 Coming soon..
 
