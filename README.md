@@ -873,7 +873,7 @@ public void Linq19()
 ```js
 //JavaScript
 function linq19() {
-    var customers = getCustomerList(); 
+    let customers = getCustomerList(); 
 
     let orders = customers.map((customer, customerIndex) => {
         return customer.Orders.map(order => `Customer #${customerIndex + 1} has an order with OrderID ${order.OrderId}`);
