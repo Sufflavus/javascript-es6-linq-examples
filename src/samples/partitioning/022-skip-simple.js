@@ -6,5 +6,5 @@
     let allButFirst4Numbers = numbers.slice(4);
 
     console.log("All but first 4 numbers:"); 
-    allButFirst4Numbers.forEach(x => console.log(x));
+    allButFirst4Numbers.forEach(n => console.log(n));
 })();

@@ -6,5 +6,5 @@
     let first3Numbers = numbers.slice(0, 3);
 
     console.log("First 3 numbers:"); 
-    first3Numbers.forEach(x => console.log(x));
+    first3Numbers.forEach(n => console.log(n));
 })();
