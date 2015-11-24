@@ -3,20 +3,20 @@
 
     let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0]; 
 
-    let numberGroups = numbers.reduce((array, item) => {
-        let key = item % 5;
+    let numberGroups = numbers.reduce((array, n) => {
+        let key = n % 5;
 
-        let hasKey = array.some(n => 
-            n.key !== key ? false : ((n.values.push(item)), true)
+        let hasKey = array.some(item => 
+            item.key !== key ? false : ((item.values.push(n)), true)
         );
 
         if(!hasKey){
-            array.push({key: key, values: [item]});
+            array.push({key: key, values: [n]});
         }
 
         return array;
     }, []).map((g, index) => 
-        ({remainder: g.key, numbers: g.values })
+        ({ remainder: g.key, numbers: g.values })
     );
 
     numberGroups.forEach(g => {
