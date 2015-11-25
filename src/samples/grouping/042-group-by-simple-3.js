@@ -7,7 +7,7 @@
         let key = p.Category;
 
         let hasKey = array.some(item => 
-            item.key !== key ? false : ((item.values.push(p)), true)
+            item.key === key ? ((item.values.push(p)), true) : false
         );
 
         if(!hasKey){
@@ -21,7 +21,8 @@
 
     orderGroups.forEach(g => {
         console.log(`Category=${g.category} Products=...`);
+        
         g.products.forEach(p => console.log(`Products: ProductID=${p.ProductID} ProductName=${p.ProductName}` + 
-                ` Category=${p.Category} UnitPrice=${p.UnitPrice} UnitsInStock=${p.UnitsInStock}`));
+            ` Category=${p.Category} UnitPrice=${p.UnitPrice} UnitsInStock=${p.UnitsInStock}`));
     });
 })();

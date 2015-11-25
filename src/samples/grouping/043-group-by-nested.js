@@ -10,7 +10,7 @@
                 let key = new Date(o.OrderDate).getFullYear();
 
                 let hasKey = array.some(item => 
-                    item.key !== key ? false : ((item.values.push(o)), true)
+                    item.key === key ? ((item.values.push(o)), true) : false
                 );
 
                 if(!hasKey){
@@ -25,7 +25,7 @@
                         let key = new Date(o.OrderDate).getMonth() + 1;
 
                         let hasKey = array.some(item => 
-                            item.key !== key ? false : ((item.values.push(o)), true)
+                            item.key === key ? ((item.values.push(o)), true) : false
                         );
 
                         if(!hasKey){

@@ -7,7 +7,7 @@
         let key = n % 5;
 
         let hasKey = array.some(item => 
-            item.key !== key ? false : ((item.values.push(n)), true)
+            item.key === key ? ((item.values.push(n)), true) : false
         );
 
         if(!hasKey){

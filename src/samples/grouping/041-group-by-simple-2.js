@@ -7,7 +7,7 @@
         let key = w[0];
 
         let hasKey = array.some(item => 
-            item.key !== key ? false : ((item.values.push(w)), true)
+            item.key === key ? ((item.values.push(w)), true) : false
         );
 
         if(!hasKey){

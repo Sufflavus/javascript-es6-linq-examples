@@ -17,7 +17,12 @@
         return array;
     }, []).map(g => 
         ({ word: g.key, anagrams: g.values })
-    );
+    ).map(g => {
+        return { 
+            word: g.word.toUpperCase(), 
+            anagrams: g.anagrams.map(a => a.toUpperCase()) 
+        };
+    });
 
     anagramGroups.forEach(g => {
         console.log("...");
