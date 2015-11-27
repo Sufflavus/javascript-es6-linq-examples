@@ -2217,6 +2217,385 @@ function linq45() {
 LINQ - Set Operators
 --------------------
 
+### linq46: Distinct - 1
+```csharp
+//c#
+public void Linq46() 
+{ 
+    int[] factorsOf300 = { 2, 2, 3, 5, 5 }; 
+  
+    var uniqueFactors = factorsOf300.Distinct(); 
+  
+    Console.WriteLine("Prime factors of 300:"); 
+    foreach (var f in uniqueFactors) 
+    { 
+        Console.WriteLine(f); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq46() {
+    let factorsOf300 = [2, 2, 3, 5, 5]; 
+
+    let uniqueFactors = Array.from(new Set(factorsOf300));
+
+    console.log("Prime factors of 300:");
+    uniqueFactors.forEach(f => console.log(f));
+}
+```
+#### Output
+
+    Prime factors of 300:
+    2
+    3
+    5
+
+### linq47: Distinct - 2
+```csharp
+//c#
+public void Linq47() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categoryNames = ( 
+        from p in products 
+        select p.Category) 
+        .Distinct(); 
+  
+    Console.WriteLine("Category names:"); 
+    foreach (var n in categoryNames) 
+    { 
+        Console.WriteLine(n); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq47() {
+    let products = getProductList();
+
+    let categoryNames = new Set(products.map(p => p.Category));
+
+    console.log("Category names:");
+    categoryNames.forEach(n => console.log(n));
+}
+```
+#### Output
+
+    Category names:
+    Beverages
+    Condiments
+    Produce
+    Meat/Poultry
+    Seafood
+    Dairy Products
+    Confections
+    Grains/Cereals
+
+### linq48: Union - 1
+```csharp
+//c#
+public void Linq48() 
+{ 
+    int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 }; 
+    int[] numbersB = { 1, 3, 5, 7, 8 }; 
+  
+    var uniqueNumbers = numbersA.Union(numbersB); 
+  
+    Console.WriteLine("Unique numbers from both arrays:"); 
+    foreach (var n in uniqueNumbers) 
+    { 
+        Console.WriteLine(n); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq48() {
+    let numbersA = [0, 2, 4, 5, 6, 8, 9]; 
+    let numbersB = [1, 3, 5, 7, 8]; 
+
+    let uniqueNumbers = new Set([...numbersA, ...numbersB]);
+
+    console.log("Unique numbers from both arrays:");
+    uniqueNumbers.forEach(n => console.log(n));
+}
+```
+#### Output
+
+    Unique numbers from both arrays:
+    0
+    2
+    4
+    5
+    6
+    8
+    9
+    1
+    3
+    7
+
+### linq49: Union - 2
+```csharp
+//c#
+public void Linq49() 
+{ 
+    List<Product> products = GetProductList(); 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var productFirstChars = 
+        from p in products 
+        select p.ProductName[0]; 
+    var customerFirstChars = 
+        from c in customers 
+        select c.CompanyName[0]; 
+  
+    var uniqueFirstChars = productFirstChars.Union(customerFirstChars); 
+  
+    Console.WriteLine("Unique first letters from Product names and Customer names:"); 
+    foreach (var ch in uniqueFirstChars) 
+    { 
+        Console.WriteLine(ch); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq49() {
+    let products = getProductList();
+    let customers = getCustomerList(); 
+
+    let productFirstChars = products.map(p => p.ProductName[0]);
+    let customerFirstChars = customers.map(c => c.CompanyName[0]);
+    
+    let uniqueFirstChars = new Set([...productFirstChars, ...customerFirstChars]);
+    
+    console.log("Unique first letters from Product names and Customer names:");
+    uniqueFirstChars.forEach(ch => console.log(ch));
+}
+```
+#### Output
+
+    Unique first letters from Product names and Customer names:
+    C
+    A
+    G
+    U
+    N
+    M
+    I
+    Q
+    K
+    T
+    P
+    S
+    R
+    B
+    J
+    Z
+    V
+    F
+    E
+    W
+    L
+    O
+    D
+    H
+
+### linq50: Intersect - 1
+```csharp
+//c#
+public void Linq50() 
+{ 
+    int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 }; 
+    int[] numbersB = { 1, 3, 5, 7, 8 }; 
+  
+    var commonNumbers = numbersA.Intersect(numbersB); 
+  
+    Console.WriteLine("Common numbers shared by both arrays:"); 
+    foreach (var n in commonNumbers) 
+    { 
+        Console.WriteLine(n); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq50() {
+    let numbersA = [0, 2, 4, 5, 6, 8, 9]; 
+    let numbersB = [1, 3, 5, 7, 8]; 
+
+    let commonNumbers = new Set(
+        numbersA.filter(n => numbersB.indexOf(n) != -1)
+    );
+    
+    console.log("Common numbers shared by both arrays:");
+    commonNumbers.forEach(n => console.log(n));
+}
+```
+#### Output
+
+    Common numbers shared by both arrays:
+    5
+    8
+
+### linq51: Intersect - 2
+```csharp
+//c#
+public void Linq51() 
+{ 
+    List<Product> products = GetProductList(); 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var productFirstChars = 
+        from p in products 
+        select p.ProductName[0]; 
+    var customerFirstChars = 
+        from c in customers 
+        select c.CompanyName[0]; 
+  
+    var commonFirstChars = productFirstChars.Intersect(customerFirstChars); 
+  
+    Console.WriteLine("Common first letters from Product names and Customer names:"); 
+    foreach (var ch in commonFirstChars) 
+    { 
+        Console.WriteLine(ch); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq51() {
+    let products = getProductList();
+    let customers = getCustomerList(); 
+
+    let productFirstChars = products.map(p => p.ProductName[0]);
+    let customerFirstChars = customers.map(c => c.CompanyName[0]);
+    
+    let commonFirstChars = new Set(
+        productFirstChars.filter(n => customerFirstChars.indexOf(n) != -1)
+    );
+    
+    console.log("Common first letters from Product names and Customer names:");
+    commonFirstChars.forEach(ch => console.log(ch));
+}
+```
+#### Output
+
+    Common first letters from Product names and Customer names:
+    C
+    A
+    G
+    N
+    M
+    I
+    Q
+    K
+    T
+    P
+    S
+    R
+    B
+    V
+    F
+    E
+    W
+    L
+    O
+
+### linq52: Except - 1
+```csharp
+//c#
+public void Linq52() 
+{ 
+    int[] numbersA = { 0, 2, 4, 5, 6, 8, 9 }; 
+    int[] numbersB = { 1, 3, 5, 7, 8 }; 
+  
+    IEnumerable<int> aOnlyNumbers = numbersA.Except(numbersB); 
+  
+    Console.WriteLine("Numbers in first array but not second array:"); 
+    foreach (var n in aOnlyNumbers) 
+    { 
+        Console.WriteLine(n); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq52() {
+    let numbersA = [0, 2, 4, 5, 6, 8, 9]; 
+    let numbersB = [1, 3, 5, 7, 8]; 
+
+    let aOnlyNumbers = new Set(
+        numbersA.filter(n => numbersB.indexOf(n) === -1)
+    );
+    
+    console.log("Numbers in first array but not second array:");
+    aOnlyNumbers.forEach(n => console.log(n));
+}
+```
+#### Output
+
+    Numbers in first array but not second array:
+    0
+    2
+    4
+    6
+    9
+
+### linq53: Except - 2
+```csharp
+//c#
+public void Linq53() 
+{ 
+    List<Product> products = GetProductList(); 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var productFirstChars = 
+        from p in products 
+        select p.ProductName[0]; 
+    var customerFirstChars = 
+        from c in customers 
+        select c.CompanyName[0]; 
+  
+    var productOnlyFirstChars = productFirstChars.Except(customerFirstChars); 
+  
+    Console.WriteLine("First letters from Product names, but not from Customer names:"); 
+    foreach (var ch in productOnlyFirstChars) 
+    { 
+        Console.WriteLine(ch); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq53() {
+    let products = getProductList();
+    let customers = getCustomerList(); 
+
+    let productFirstChars = products.map(p => p.ProductName[0]);
+    let customerFirstChars = customers.map(c => c.CompanyName[0]);
+    
+    let productOnlyFirstChars = new Set(
+        productFirstChars.filter(n => customerFirstChars.indexOf(n) === -1)
+    );
+    
+    console.log("First letters from Product names, but not from Customer names:");
+    productOnlyFirstChars.forEach(ch => console.log(ch));
+}
+```
+#### Output
+
+    First letters from Product names, but not from Customer names:
+    U
+    J
+    Z
+
+
+LINQ - Conversion Operators
+---------------------------
+
 
 Coming soon..
 
