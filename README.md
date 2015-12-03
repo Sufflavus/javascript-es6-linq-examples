@@ -2756,11 +2756,164 @@ function linq57() {
 
     Numbers stored as doubles:
 
-> In JavaScript types of number **1** and number **1.0** are the same and equal integer, so **1 == 1.0** and **1 === 1.0**
+> In JavaScript types of number **1** and number **1.0** are the same and equal **integer**, so **1 == 1.0** as well as **1 === 1.0**. As a result, in the **numbers** array there are no any number that might be considered as **double**.
+
 
 LINQ - Element Operators
 ------------------------
 
+### linq58: First - Simple
+```csharp
+//c#
+public void Linq58() 
+{ 
+    List<Product> products = GetProductList(); 
+ 
+    Product product12 = ( 
+        from p in products 
+        where p.ProductID == 12 
+        select p) 
+        .First(); 
+  
+    ObjectDumper.Write(product12); 
+}
+```
+```js
+//JavaScript
+function linq58() {
+    let products = getProductList(); 
+ 
+    let product12 = products.filter(p => p.ProductID === 12)[0]; 
+    
+    console.log(`ProductID=${product12.ProductID} ProductName=${product12.ProductName}` + 
+        ` Category=${product12.Category} UnitPrice=${product12.UnitPrice} UnitsInStock=${product12.UnitsInStock}`);
+}
+```
+#### Output
+
+    ProductID=12 ProductName=Queso Manchego La Pastora Category=Dairy Products UnitPrice=38 UnitsInStock=86
+
+### linq59: First - Condition
+```csharp
+//c#
+public void Linq59() 
+{ 
+    string[] strings = { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
+  
+    string startsWithO = strings.First(s => s[0] == 'o'); 
+  
+    Console.WriteLine("A string starting with 'o': {0}", startsWithO); 
+}
+```
+```js
+//JavaScript
+function linq59() {
+    let strings = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+ 
+    let startsWithO = strings.filter(s => s[0] === "o")[0]; 
+    
+    console.log(`A string starting with 'o': ${startsWithO}`);
+}
+```
+#### Output
+
+    A string starting with 'o': one
+
+### linq61: FirstOrDefault - Simple
+```csharp
+//c#
+public void Linq61() 
+{ 
+    int[] numbers = { }; 
+  
+    int firstNumOrDefault = numbers.FirstOrDefault(); 
+  
+    Console.WriteLine(firstNumOrDefault); 
+}
+```
+```js
+//JavaScript
+function linq61() {
+    let numbers = []; 
+    const intDefaultValue = 0;
+    
+    let firstNumOrDefault = numbers[0] || intDefaultValue;
+
+    console.log(firstNumOrDefault);
+}
+```
+#### Output
+
+    0
+
+
+> JavaScript returns **undefined** as default value for all types. Because of this you should specify some default value (in this case, **intDefaultValue**).
+
+
+### linq62: FirstOrDefault - Condition
+```csharp
+//c#
+public void Linq62() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    Product product789 = products.FirstOrDefault(p => p.ProductID == 789); 
+ 
+    Console.WriteLine("Product 789 exists: {0}", product789 != null); 
+}
+```
+```js
+//JavaScript
+function linq62() {
+    let products = getProductList(); 
+    const defaultProductValue = {};
+ 
+    let product789 = products.filter(p => p.ProductID === 789)[0] || defaultProductValue; 
+    
+    console.log(`Product 789 exists: ${!product789}`);
+}
+```
+#### Output
+
+    Product 789 exists: false
+
+> JavaScript returns **undefined** as default value for all types. Because of this you should specify some default value (in this case, **defaultProductValue**).
+
+### linq64: ElementAt
+```csharp
+//c#
+public void Linq64() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    int fourthLowNum = ( 
+        from n in numbers 
+        where n > 5 
+        select n) 
+        .ElementAt(1);  // second number is index 1 because sequences use 0-based indexing 
+ 
+    Console.WriteLine("Second number > 5: {0}", fourthLowNum); 
+}
+```
+```js
+//JavaScript
+function linq64() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0]; 
+    
+    let fourthLowNum = numbers.filter(function(n) {
+        return n > 5;
+    })[1];
+
+    console.log(`Second number > 5: ${fourthLowNum}`);
+}
+```
+#### Output
+
+    Second number > 5: 8
+
+
+LINQ - Generation Operators
+---------------------------
 
 
 Coming soon..
