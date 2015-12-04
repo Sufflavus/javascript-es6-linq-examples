@@ -2915,6 +2915,88 @@ function linq64() {
 LINQ - Generation Operators
 ---------------------------
 
+### linq65: Range
+```csharp
+//c#
+public void Linq65() 
+{ 
+    var numbers = 
+        from n in Enumerable.Range(100, 50) 
+  
+        select new { Number = n, OddEven = n % 2 == 1 ? "odd" : "even" }; 
+  
+    foreach (var n in numbers) 
+    { 
+        Console.WriteLine("The number {0} is {1}.", n.Number, n.OddEven); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq65() {
+    let numbers = Array.apply(null, Array(50))
+        .map((element, index) => index + 100)
+        .map(n => ({ 
+            number: n, 
+            oddEven: n % 2 === 1 ? "odd" : "even" 
+        })); 
+    
+    numbers.forEach(n => console.log(`The number ${n.number} is ${n.oddEven}.`));
+}
+```
+#### Output
+
+    The number 100 is even.
+    The number 101 is odd.
+    The number 102 is even.
+    The number 103 is odd.
+    The number 104 is even.
+    The number 105 is odd.
+    The number 106 is even.
+    The number 107 is odd.
+    The number 108 is even.
+    The number 109 is odd.
+    The number 110 is even.
+    ...
+
+### linq66: Repeat
+```csharp
+//c#
+public void Linq66() 
+{ 
+    var numbers = Enumerable.Repeat(7, 10); 
+  
+    foreach (var n in numbers) 
+    {  
+        Console.WriteLine(n); 
+    } 
+}
+```
+```js
+//JavaScript
+function linq66() {
+    let numbers = new Array(10).fill(7);
+
+    numbers.forEach(n => console.log(n));
+}
+```
+#### Output
+
+    7
+    7
+    7
+    7
+    7
+    7
+    7
+    7
+    7
+    7
+
+
+LINQ - Quantifiers
+------------------
+
 
 Coming soon..
 
