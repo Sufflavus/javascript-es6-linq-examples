@@ -16,7 +16,7 @@
 
         return array;
     }, []).filter(g => {
-        return g.values.some(p => p.UnitsInStock === 0);
+        return g.values.every(p => p.UnitsInStock > 0);
     }).map((g, index) => 
         ({ category: g.key, products: g.values })
     );
