@@ -3,7 +3,7 @@
 
     let products = getProductList();
     
-    let categoryCounts = products.reduce((array, p) => {
+    let categories = products.reduce((array, p) => {
         let key = p.Category;
 
         let hasKey = array.some(item => 
@@ -16,9 +16,10 @@
 
         return array;
     }, []).map((g, index) => ({ 
-        category: g.key, 
-        productCount: g.values.length 
-    }));
+            category: g.key, 
+            totalUnitsInStock: g.values.reduce((sum, product) => 
+                sum + product.UnitsInStock, 0)
+        }));
 
-    categoryCounts.forEach(p => console.log(`Category=${p.category}  ProductCount=${p.productCount}`));
+    categories.forEach(p => console.log(`Category=${p.category}  TotalUnitsInStock=${p.totalUnitsInStock}`));
 })();
