@@ -3182,6 +3182,766 @@ function linq72() {
 LINQ - Aggregate Operators
 --------------------------
 
+### linq73: Count - Simple
+```csharp
+//c#
+public void Linq73() 
+{ 
+    int[] factorsOf300 = { 2, 2, 3, 5, 5 }; 
+  
+    int uniqueFactors = factorsOf300.Distinct().Count(); 
+  
+    Console.WriteLine("There are {0} unique factors of 300.", uniqueFactors); 
+}
+```
+```js
+//JavaScript
+function linq73() {
+    let factorsOf300 = [2, 2, 3, 5, 5];
+
+    let uniqueFactors = factorsOf300.filter((f, index, array) => 
+        array.indexOf(f) === index).length; 
+
+    console.log(`There are ${uniqueFactors} unique factors of 300.`);
+}
+```
+#### Output
+
+    There are 3 unique factors of 300.
+
+### linq74: Count - Conditional
+```csharp
+//c#
+public void Linq74() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    int oddNumbers = numbers.Count(n => n % 2 == 1); 
+  
+    Console.WriteLine("There are {0} odd numbers in the list.", oddNumbers); 
+}
+```
+```js
+//JavaScript
+function linq74() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+
+    let oddNumbers = numbers.filter(n => n % 2 === 1).length; 
+
+    console.log(`There are ${oddNumbers} odd numbers in the list.`);
+}
+```
+#### Output
+
+    There are 5 odd numbers in the list.
+
+### linq76: Count - Nested
+```csharp
+//c#
+public void Linq76() 
+{ 
+    List<Customer> customers = GetCustomerList(); 
+  
+    var orderCounts = 
+        from c in customers 
+        select new { c.CustomerID, OrderCount = c.Orders.Count() }; 
+  
+    ObjectDumper.Write(orderCounts); 
+}
+```
+```js
+//JavaScript
+function linq76() {
+    let customers = getCustomerList();
+
+    let orderCounts = customers.map(c => ({ 
+            customerId: c.CustomerId, 
+            orderCount: c.Orders.length 
+        })); 
+
+    orderCounts.forEach(c => console.log(`CustomerID=${c.customerId}  OrderCount=${c.orderCount}`));
+}
+```
+#### Output
+
+    CustomerID=ALFKI  OrderCount=6
+    CustomerID=ANATR  OrderCount=4
+    CustomerID=ANTON  OrderCount=7
+    CustomerID=AROUT  OrderCount=13
+    CustomerID=BERGS  OrderCount=18
+    CustomerID=BLAUS  OrderCount=7
+    CustomerID=BLONP  OrderCount=11
+    ...
+
+### linq77: Count - Grouped
+```csharp
+//c#
+public void Linq77() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categoryCounts = 
+        from p in products 
+        group p by p.Category into g 
+        select new { Category = g.Key, ProductCount = g.Count() }; 
+  
+    ObjectDumper.Write(categoryCounts 
+}
+```
+```js
+//JavaScript
+function linq77() {
+    let products = getProductList();
+    
+    let categoryCounts = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map((g, index) => ({ 
+        category: g.key, 
+        productCount: g.values.length 
+    }));
+
+    categoryCounts.forEach(p => console.log(`Category=${p.category}  ProductCount=${p.productCount}`));
+}
+```
+#### Output
+
+    Category=Beverages  ProductCount=12
+    Category=Condiments  ProductCount=12
+    Category=Produce  ProductCount=5
+    Category=Meat/Poultry  ProductCount=6
+    Category=Seafood  ProductCount=12
+    Category=Dairy Products  ProductCount=10
+    Category=Confections  ProductCount=13
+    Category=Grains/Cereals  ProductCount=7
+
+### linq78: Sum - Simple
+```csharp
+//c#
+public void Linq78() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    double numSum = numbers.Sum(); 
+  
+    Console.WriteLine("The sum of the numbers is {0}.", numSum); 
+}
+```
+```js
+//JavaScript
+function linq78() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+    
+    let numSum = numbers.reduce((sum, number) => sum + number, 0); 
+
+    console.log(`The sum of the numbers is ${numSum}.`);
+}
+```
+#### Output
+
+    The sum of the numbers is 45.
+
+### linq79: Sum - Projection
+```csharp
+//c#
+public void Linq79() 
+{ 
+    string[] words = { "cherry", "apple", "blueberry" }; 
+  
+    double totalChars = words.Sum(w => w.Length); 
+  
+    Console.WriteLine("There are a total of {0} characters in these words.", totalChars); 
+}
+```
+```js
+//JavaScript
+function linq79() {
+    let words = ["cherry", "apple", "blueberry"];
+    
+    let totalChars = words.reduce((sum, word) => sum + word.length, 0); 
+
+    console.log(`There are a total of ${totalChars} characters in these words.`);
+}
+```
+#### Output
+
+    There are a total of 20 characters in these words.
+
+### linq80: Sum - Grouped
+```csharp
+//c#
+public void Linq80() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        select new { Category = g.Key, TotalUnitsInStock = g.Sum(p => p.UnitsInStock) }; 
+  
+    ObjectDumper.Write(categories); 
+}
+```
+```js
+//JavaScript
+function linq80() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map((g, index) => ({ 
+            category: g.key, 
+            totalUnitsInStock: g.values.reduce((sum, product) => 
+                sum + product.UnitsInStock, 0)
+        }));
+
+    categories.forEach(p => console.log(`Category=${p.category}  TotalUnitsInStock=${p.totalUnitsInStock}`));
+}
+```
+#### Output
+
+    Category=Beverages  TotalUnitsInStock=559
+    Category=Condiments  TotalUnitsInStock=507
+    Category=Produce  TotalUnitsInStock=100
+    Category=Meat/Poultry  TotalUnitsInStock=165
+    Category=Seafood  TotalUnitsInStock=701
+    Category=Dairy Products  TotalUnitsInStock=393
+    Category=Confections  TotalUnitsInStock=386
+    Category=Grains/Cereals  TotalUnitsInStock=308
+
+### linq81: Min - Simple
+```csharp
+//c#
+public void Linq81() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    int minNum = numbers.Min(); 
+  
+    Console.WriteLine("The minimum number is {0}.", minNum); 
+}
+```
+```js
+//JavaScript
+function linq81() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+    
+    let minNum = Math.min.apply(null, numbers); 
+
+    console.log(`The minimum number is ${minNum}.`);
+}
+```
+#### Output
+
+    The minimum number is 0.
+
+### linq82: Min - Projection
+```csharp
+//c#
+public void Linq82() 
+{ 
+    string[] words = { "cherry", "apple", "blueberry" }; 
+  
+    int shortestWord = words.Min(w => w.Length); 
+  
+    Console.WriteLine("The shortest word is {0} characters long.", shortestWord); 
+}
+```
+```js
+//JavaScript
+function linq82() {
+    let words = ["cherry", "apple", "blueberry"];
+    
+    let shortestWord = Math.min.apply(null, words.map(w => w.length)); 
+
+    console.log(`The shortest word is ${shortestWord} characters long.`);
+}
+```
+#### Output
+
+    The shortest word is 5 characters long.
+
+### linq83: Min - Grouped
+```csharp
+//c#
+public void Linq83() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        select new { Category = g.Key, CheapestPrice = g.Min(p => p.UnitPrice) }; 
+  
+    ObjectDumper.Write(categories); 
+}
+```
+```js
+//JavaScript
+function linq83() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map(g => ({ 
+        category: g.key, 
+        cheapestPrice: Math.min.apply(null, g.values.map(p => p.UnitPrice))
+    }));
+
+    categories.forEach(p => console.log(`Category=${p.category}  CheapestPrice=${p.cheapestPrice}`));
+}
+```
+#### Output
+
+    Category=Beverages  CheapestPrice=4.5
+    Category=Condiments  CheapestPrice=10
+    Category=Produce  CheapestPrice=10
+    Category=Meat/Poultry  CheapestPrice=7.45
+    Category=Seafood  CheapestPrice=6
+    Category=Dairy Products  CheapestPrice=2.5
+    Category=Confections  CheapestPrice=9.2
+    Category=Grains/Cereals  CheapestPrice=7
+
+### linq84: Min - Elements
+```csharp
+//c#
+public void Linq84() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        let minPrice = g.Min(p => p.UnitPrice) 
+        select new { Category = g.Key, CheapestProducts = g.Where(p => p.UnitPrice == minPrice) }; 
+  
+    ObjectDumper.Write(categories, 1); 
+}
+```
+```js
+//JavaScript
+function linq84() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map(g => {
+        let minPrice = Math.min.apply(null, g.values.map(p => p.UnitPrice));
+        
+        return { 
+            category: g.key,
+            cheapestProducts: g.values.filter(p => p.UnitPrice === minPrice)
+        };
+    });
+
+    categories.forEach(g => {
+        console.log(`Category=${g.category} CheapestProducts=...`);
+
+        g.cheapestProducts.forEach(p => 
+            console.log(`CheapestProducts: ProductID=${p.ProductID} ProductName=${p.ProductName}` + 
+                ` Category=${p.Category} UnitPrice=${p.UnitPrice} UnitsInStock=${p.UnitsInStock}`))
+    });
+}
+```
+#### Output
+
+    Category=Beverages CheapestProducts=...
+    CheapestProducts: ProductID=24 ProductName=Guaraná Fantástica Category=Beverages UnitPrice=4.5 UnitsInStock=20
+    Category=Condiments CheapestProducts=...
+    CheapestProducts: ProductID=3 ProductName=Aniseed Syrup Category=Condiments UnitPrice=10 UnitsInStock=13
+    Category=Produce CheapestProducts=...
+    CheapestProducts: ProductID=74 ProductName=Longlife Tofu Category=Produce UnitPrice=10 UnitsInStock=4
+    Category=Meat/Poultry CheapestProducts=...
+    CheapestProducts: ProductID=54 ProductName=Tourtière Category=Meat/Poultry UnitPrice=7.45 UnitsInStock=21
+    Category=Seafood CheapestProducts=...
+    CheapestProducts: ProductID=13 ProductName=Konbu Category=Seafood UnitPrice=6 UnitsInStock=24
+    Category=Dairy Products CheapestProducts=...
+    CheapestProducts: ProductID=33 ProductName=Geitost Category=Dairy Products UnitPrice=2.5 UnitsInStock=112
+    Category=Confections CheapestProducts=...
+    CheapestProducts: ProductID=19 ProductName=Teatime Chocolate Biscuits Category=Confections UnitPrice=9.2 UnitsInStock=25
+    Category=Grains/Cereals CheapestProducts=...
+    CheapestProducts: ProductID=52 ProductName=Filo Mix Category=Grains/Cereals UnitPrice=7 UnitsInStock=38
+
+### linq85: Max - Simple
+```csharp
+//c#
+public void Linq85() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    int maxNum = numbers.Max(); 
+  
+    Console.WriteLine("The maximum number is {0}.", maxNum); 
+}
+```
+```js
+//JavaScript
+function linq85() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+    
+    let maxNum = Math.max.apply(null, numbers); 
+
+    console.log(`The maximum number is ${maxNum}.`);
+}
+```
+#### Output
+
+    The maximum number is 9.
+
+### linq86: Max - Projection
+```csharp
+//c#
+public void Linq86() 
+{ 
+    string[] words = { "cherry", "apple", "blueberry" }; 
+  
+    int longestLength = words.Max(w => w.Length); 
+  
+    Console.WriteLine("The longest word is {0} characters long.", longestLength); 
+}
+```
+```js
+//JavaScript
+function linq86() {
+    let words = ["cherry", "apple", "blueberry"];
+    
+    let longestLength = Math.max.apply(null, words.map(w => w.length)); 
+
+    console.log(`The longest word is ${longestLength} characters long.`);
+}
+```
+#### Output
+
+    The longest word is 9 characters long.
+
+### linq87: Max - Grouped
+```csharp
+//c#
+public void Linq87() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        select new { Category = g.Key, MostExpensivePrice = g.Max(p => p.UnitPrice) }; 
+  
+    ObjectDumper.Write(categories); 
+}
+```
+```js
+//JavaScript
+function linq87() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map(g => ({ 
+        category: g.key, 
+        mostExpensivePrice: Math.max.apply(null, g.values.map(p => p.UnitPrice))
+    }));
+
+    categories.forEach(p => console.log(`Category=${p.category}  MostExpensivePrice=${p.mostExpensivePrice}`));
+}
+```
+#### Output
+
+    Category=Beverages  MostExpensivePrice=263.5
+    Category=Condiments  MostExpensivePrice=43.9
+    Category=Produce  MostExpensivePrice=53
+    Category=Meat/Poultry  MostExpensivePrice=123.79
+    Category=Seafood  MostExpensivePrice=62.5
+    Category=Dairy Products  MostExpensivePrice=55
+    Category=Confections  MostExpensivePrice=81
+    Category=Grains/Cereals  MostExpensivePrice=38
+
+### linq88: Max - Elements
+```csharp
+//c#
+public void Linq88() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        let maxPrice = g.Max(p => p.UnitPrice) 
+        select new { Category = g.Key, MostExpensiveProducts = g.Where(p => p.UnitPrice == maxPrice) }; 
+  
+    ObjectDumper.Write(categories, 1); 
+}
+```
+```js
+//JavaScript
+function linq88() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map(g => {
+        let maxPrice = Math.max.apply(null, g.values.map(p => p.UnitPrice));
+        
+        return { 
+            category: g.key,
+            mostExpensiveProducts: g.values.filter(p => p.UnitPrice === maxPrice)
+        };
+    });
+
+    categories.forEach(g => {
+        console.log(`Category=${g.category} MostExpensiveProducts=...`);
+
+        g.mostExpensiveProducts.forEach(p => 
+            console.log(`MostExpensiveProducts: ProductID=${p.ProductID} ProductName=${p.ProductName}` + 
+                ` Category=${p.Category} UnitPrice=${p.UnitPrice} UnitsInStock=${p.UnitsInStock}`))
+    });
+}
+```
+#### Output
+
+    Category=Beverages MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=38 ProductName=Côte de Blaye Category=Beverages UnitPrice=263.5 UnitsInStock=17
+    Category=Condiments MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=63 ProductName=Vegie-spread Category=Condiments UnitPrice=43.9 UnitsInStock=24
+    Category=Produce MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=51 ProductName=Manjimup Dried Apples Category=Produce UnitPrice=53 UnitsInStock=20
+    Category=Meat/Poultry MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=29 ProductName=Thüringer Rostbratwurst Category=Meat/Poultry UnitPrice=123.79 UnitsInStock=0
+    Category=Seafood MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=18 ProductName=Carnarvon Tigers Category=Seafood UnitPrice=62.5 UnitsInStock=42
+    Category=Dairy Products MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=59 ProductName=Raclette Courdavault Category=Dairy Products UnitPrice=55 UnitsInStock=79
+    Category=Confections MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=20 ProductName=Sir Rodney's Marmalade Category=Confections UnitPrice=81 UnitsInStock=40
+    Category=Grains/Cereals MostExpensiveProducts=...
+    MostExpensiveProducts: ProductID=56 ProductName=Gnocchi di nonna Alice Category=Grains/Cereals UnitPrice=38 UnitsInStock=21
+
+### linq89: Average - Simple
+```csharp
+//c#
+public void Linq89() 
+{ 
+    int[] numbers = { 5, 4, 1, 3, 9, 8, 6, 7, 2, 0 }; 
+  
+    double averageNum = numbers.Average(); 
+  
+    Console.WriteLine("The average number is {0}.", averageNum); 
+}
+```
+```js
+//JavaScript
+function linq89() {
+    let numbers = [5, 4, 1, 3, 9, 8, 6, 7, 2, 0];
+    
+    let averageNum = numbers.reduce((sum, number) => sum + number, 0) / numbers.length; 
+
+    console.log(`The average number is ${averageNum}.`);
+}
+```
+#### Output
+
+    The average number is 4.5.
+
+### linq90: Average - Projection
+```csharp
+//c#
+public void Linq90() 
+{ 
+    string[] words = { "cherry", "apple", "blueberry" }; 
+  
+    double averageLength = words.Average(w => w.Length); 
+  
+    Console.WriteLine("The average word length is {0} characters.", averageLength); 
+}
+```
+```js
+//JavaScript
+function linq90() {
+    let words = ["cherry", "apple", "blueberry"];
+    
+    let averageLength = words.reduce((sum, word) => sum + word.length, 0) / words.length; 
+
+    console.log(`The average word length is ${averageLength} characters.`);
+}
+```
+#### Output
+
+    The average word length is 6.666666666666667 characters.
+
+### linq91: Average - Grouped
+```csharp
+//c#
+public void Linq91() 
+{ 
+    List<Product> products = GetProductList(); 
+  
+    var categories = 
+        from p in products 
+        group p by p.Category into g 
+        select new { Category = g.Key, AveragePrice = g.Average(p => p.UnitPrice) }; 
+  
+    ObjectDumper.Write(categories); 
+}
+```
+```js
+//JavaScript
+function linq91() {
+    let products = getProductList();
+    
+    let categories = products.reduce((array, p) => {
+        let key = p.Category;
+
+        let hasKey = array.some(item => 
+            item.key === key ? ((item.values.push(p)), true) : false
+        );
+
+        if(!hasKey){
+            array.push({key: key, values: [p]});
+        }
+
+        return array;
+    }, []).map((g, index) => ({ 
+            category: g.key, 
+            averagePrice: g.values.reduce((sum, product) => 
+                sum + product.UnitPrice, 0) / g.values.length
+        }));
+
+    categories.forEach(p => console.log(`Category=${p.category}  AveragePrice=${p.averagePrice}`));
+}
+```
+#### Output
+
+    Category=Beverages  AveragePrice=37.979166666666664
+    Category=Condiments  AveragePrice=23.0625
+    Category=Produce  AveragePrice=32.37
+    Category=Meat/Poultry  AveragePrice=54.00666666666667
+    Category=Seafood  AveragePrice=20.6825
+    Category=Dairy Products  AveragePrice=28.73
+    Category=Confections  AveragePrice=25.16
+    Category=Grains/Cereals  AveragePrice=20.25
+
+### linq92: Aggregate - Simple
+```csharp
+//c#
+public void Linq92() 
+{ 
+    double[] doubles = { 1.7, 2.3, 1.9, 4.1, 2.9 }; 
+  
+    double product = doubles.Aggregate((runningProduct, nextFactor) => runningProduct * nextFactor); 
+  
+    Console.WriteLine("Total product of all numbers: {0}", product); 
+}
+```
+```js
+//JavaScript
+function linq92() {
+    let doubles = [1.7, 2.3, 1.9, 4.1, 2.9];
+    
+    let product = doubles.reduce((runningProduct, nextFactor) => runningProduct * nextFactor, 1); 
+
+    console.log(`Total product of all numbers: ${product}`);
+}
+```
+#### Output
+
+    Total product of all numbers: 88.33080999999999
+
+### linq93: Aggregate - Seed
+```csharp
+//c#
+public void Linq93() 
+{ 
+    double startBalance = 100.0; 
+  
+    int[] attemptedWithdrawals = { 20, 10, 40, 50, 10, 70, 30 }; 
+  
+    double endBalance = 
+        attemptedWithdrawals.Aggregate(startBalance, 
+            (balance, nextWithdrawal) => 
+                ((nextWithdrawal <= balance) ? (balance - nextWithdrawal) : balance)); 
+  
+    Console.WriteLine("Ending balance: {0}", endBalance); 
+}
+```
+```js
+//JavaScript
+function linq93() {
+    const startBalance = 100.0;
+
+    let attemptedWithdrawals = [20, 10, 40, 50, 10, 70, 30];
+    
+    let endBalance = attemptedWithdrawals.reduce((balance, nextWithdrawal) => 
+        nextWithdrawal <= balance ? (balance - nextWithdrawal) : balance, startBalance); 
+
+    console.log(`Ending balance: ${endBalance}`);
+}
+```
+#### Output
+
+    Ending balance: 20
+
+
+LINQ - Miscellaneous Operators
+------------------------------
+
 
 Coming soon..
 
