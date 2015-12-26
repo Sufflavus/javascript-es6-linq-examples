@@ -484,7 +484,8 @@ public void Linq11()
     Console.WriteLine("Product Info:"); 
     foreach (var productInfo in productInfos) 
     { 
-        Console.WriteLine("{0} is in the category {1} and costs {2} per unit.", productInfo.ProductName, productInfo.Category, productInfo.Price); 
+        Console.WriteLine("{0} is in the category {1} and costs {2} per unit.", productInfo.ProductName, 
+            productInfo.Category, productInfo.Price); 
     } 
 }
 ```
@@ -696,7 +697,8 @@ function linq15() {
             });
     }).reduce((arr1, arr2) => arr1.concat(arr2), []);
 
-    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} Total=${order.total}`));
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} ` + 
+        `Total=${order.total}`));
 }
 ```
 #### Output
@@ -740,7 +742,8 @@ function linq16() {
             });
     }).reduce((arr1, arr2) => arr1.concat(arr2), []);
 
-    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} OrderDate=${order.orderDate}`));
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} ` + 
+        `OrderDate=${order.orderDate}`));
 }
 ```
 #### Output
@@ -784,7 +787,8 @@ function linq17() {
             });
     }).reduce((arr1, arr2) => arr1.concat(arr2), []);
 
-    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} Total=${order.total}`));
+    orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} ` + 
+        `Total=${order.total}`));
 }
 ```
 #### Output
@@ -877,7 +881,8 @@ function linq19() {
     let customers = getCustomerList(); 
 
     let orders = customers.map((customer, customerIndex) => {
-        return customer.Orders.map(order => `Customer #${customerIndex + 1} has an order with OrderID ${order.OrderId}`);
+        return customer.Orders.map(order => `Customer #${customerIndex + 1} has an order ` + 
+            `with OrderID ${order.OrderId}`);
     }).reduce((arr1, arr2) => arr1.concat(arr2), []);
 
     orders.forEach(order => console.log(order));
@@ -977,7 +982,8 @@ function linq21() {
 
     console.log("First 3 orders in WA:"); 
 
-    first3WAOrders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} OrderDate=${order.orderDate}`)); 
+    first3WAOrders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} ` + 
+        `OrderDate=${order.orderDate}`)); 
 }
 ```
 #### Output
@@ -1068,7 +1074,8 @@ function linq23() {
 
     console.log("All but first 2 orders in WA:"); 
 
-    allButFirst2Orders.forEach(order => console.log(`CustomerID=${order.customerId} OrderID=${order.orderId} OrderDate=${order.orderDate}`)); 
+    allButFirst2Orders.forEach(order => console.log(`CustomerID=${order.customerId} ` + 
+        `OrderID=${order.orderId} OrderDate=${order.orderDate}`)); 
 }
 ```
 #### Output
@@ -1361,8 +1368,9 @@ function linq30() {
         return 0;
     });
     
-    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ProductName=${product.ProductName} ` +
-        `Category=${product.Category} UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
+    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ` + 
+        `ProductName=${product.ProductName} Category=${product.Category} ` + 
+        `UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
 }
 ```
 #### Output
@@ -1476,8 +1484,9 @@ function linq33() {
 
     let sortedProducts = products.slice().sort((p1, p2) => p2.UnitsInStock - p1.UnitsInStock);
     
-    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ProductName=${product.ProductName} ` +
-        `Category=${product.Category} UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
+    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ` + 
+        `ProductName=${product.ProductName} Category=${product.Category} ` +
+        `UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
 }
 ```
 #### Output
@@ -1672,8 +1681,9 @@ function linq37() {
         return p2.UnitPrice - p1.UnitPrice;
     });
     
-    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ProductName=${product.ProductName} ` +
-        `Category=${product.Category} UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
+    sortedProducts.forEach(product => console.log(`ProductID=${product.ProductID} ` + 
+        `ProductName=${product.ProductName} Category=${product.Category} ` +
+        `UnitPrice=${product.UnitPrice} UnitsInStock=${product.UnitsInStock}`));
 }
 ```
 #### Output
@@ -3082,7 +3092,8 @@ function linq69() {
     Products: ProductID=44 ProductName=Gula Malacca Category=Condiments UnitPrice=19.45 UnitsInStock=27
     Products: ProductID=61 ProductName=Sirop d'érable Category=Condiments UnitPrice=28.5 UnitsInStock=113
     Products: ProductID=63 ProductName=Vegie-spread Category=Condiments UnitPrice=43.9 UnitsInStock=24
-    Products: ProductID=65 ProductName=Louisiana Fiery Hot Pepper Sauce Category=Condiments UnitPrice=21.05 UnitsInStock=76
+    Products: ProductID=65 ProductName=Louisiana Fiery Hot Pepper Sauce Category=Condiments UnitPrice=21.05 
+    UnitsInStock=76
     Products: ProductID=66 ProductName=Louisiana Hot Spiced Okra Category=Condiments UnitPrice=17 UnitsInStock=4
     Products: ProductID=77 ProductName=Original Frankfurter grüne Soße Category=Condiments UnitPrice=13 UnitsInStock=32
     Category=Meat/Poultry Products=...
@@ -3598,7 +3609,8 @@ function linq84() {
     Category=Dairy Products CheapestProducts=...
     CheapestProducts: ProductID=33 ProductName=Geitost Category=Dairy Products UnitPrice=2.5 UnitsInStock=112
     Category=Confections CheapestProducts=...
-    CheapestProducts: ProductID=19 ProductName=Teatime Chocolate Biscuits Category=Confections UnitPrice=9.2 UnitsInStock=25
+    CheapestProducts: ProductID=19 ProductName=Teatime Chocolate Biscuits Category=Confections UnitPrice=9.2 
+    UnitsInStock=25
     Category=Grains/Cereals CheapestProducts=...
     CheapestProducts: ProductID=52 ProductName=Filo Mix Category=Grains/Cereals UnitPrice=7 UnitsInStock=38
 
@@ -3765,15 +3777,19 @@ function linq88() {
     Category=Produce MostExpensiveProducts=...
     MostExpensiveProducts: ProductID=51 ProductName=Manjimup Dried Apples Category=Produce UnitPrice=53 UnitsInStock=20
     Category=Meat/Poultry MostExpensiveProducts=...
-    MostExpensiveProducts: ProductID=29 ProductName=Thüringer Rostbratwurst Category=Meat/Poultry UnitPrice=123.79 UnitsInStock=0
+    MostExpensiveProducts: ProductID=29 ProductName=Thüringer Rostbratwurst Category=Meat/Poultry UnitPrice=123.79 
+    UnitsInStock=0
     Category=Seafood MostExpensiveProducts=...
     MostExpensiveProducts: ProductID=18 ProductName=Carnarvon Tigers Category=Seafood UnitPrice=62.5 UnitsInStock=42
     Category=Dairy Products MostExpensiveProducts=...
-    MostExpensiveProducts: ProductID=59 ProductName=Raclette Courdavault Category=Dairy Products UnitPrice=55 UnitsInStock=79
+    MostExpensiveProducts: ProductID=59 ProductName=Raclette Courdavault Category=Dairy Products UnitPrice=55 
+    UnitsInStock=79
     Category=Confections MostExpensiveProducts=...
-    MostExpensiveProducts: ProductID=20 ProductName=Sir Rodney's Marmalade Category=Confections UnitPrice=81 UnitsInStock=40
+    MostExpensiveProducts: ProductID=20 ProductName=Sir Rodney's Marmalade Category=Confections UnitPrice=81 
+    UnitsInStock=40
     Category=Grains/Cereals MostExpensiveProducts=...
-    MostExpensiveProducts: ProductID=56 ProductName=Gnocchi di nonna Alice Category=Grains/Cereals UnitPrice=38 UnitsInStock=21
+    MostExpensiveProducts: ProductID=56 ProductName=Gnocchi di nonna Alice Category=Grains/Cereals UnitPrice=38 
+    UnitsInStock=21
 
 ### linq89: Average - Simple
 ```csharp
