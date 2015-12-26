@@ -4454,7 +4454,7 @@ function linq103() {
 ```
 #### Output
 
-   Beverages:
+    Beverages:
        Chai
        Chang
        Guaraná Fantástica
